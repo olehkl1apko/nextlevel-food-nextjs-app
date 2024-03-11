@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata = {
@@ -5,7 +6,11 @@ export const metadata = {
   description: "Nextlevel Food",
 };
 
-export default function RootLayout({ children }) {
+interface Props {
+  children: ReactNode;
+}
+
+export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <body>{children}</body>
