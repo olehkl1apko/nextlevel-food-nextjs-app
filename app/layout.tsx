@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
-import "./globals.css";
 
+import "./globals.css";
+import MainHeader from "@/components/main-header";
 interface Props {
   children: ReactNode;
 }
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: Props) {
           </svg>
         </div>
 
+        <MainHeader />
         {children}
       </body>
     </html>
