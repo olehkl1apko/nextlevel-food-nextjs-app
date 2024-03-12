@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { ReactNode } from "react";
 
 import "./globals.css";
@@ -6,7 +7,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "NextLevel Food",
   description: "Delicious meals, shared by a food-loving community.",
 };

@@ -10,6 +10,19 @@ interface Props {
   };
 }
 
+export async function generateMetadata({ params }: Props) {
+  const meal = getMeal(params.mealSlug);
+
+  if (!meal) {
+    notFound();
+  }
+
+  return {
+    title: meal.title,
+    description: meal.summary,
+  };
+}
+
 export default function MealDetailsPage({ params }: Props) {
   const meal = getMeal(params.mealSlug);
 
