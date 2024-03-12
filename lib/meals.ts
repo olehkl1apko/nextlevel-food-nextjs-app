@@ -28,7 +28,7 @@ export async function getMeals(): Promise<IMeal[]> {
   return db.prepare("SELECT * FROM meals").all() as IMeal[];
 }
 
-export function getMeal(slug: string) {
+export async function getMeal(slug: string): Promise<IMeal> {
   return db.prepare("SELECT * FROM meals WHERE slug = ?").get(slug) as IMeal;
 }
 
@@ -48,7 +48,7 @@ export async function saveMeal(meal: IMealFormData) {
     //     throw new Error("Saving image failed!");
     //   }
     // });
-    s3.putObject({
+    await s3.putObject({
       Bucket: "nextlevel-food-nextjs-app",
       Key: fileName,
       Body: Buffer.from(bufferedImage),

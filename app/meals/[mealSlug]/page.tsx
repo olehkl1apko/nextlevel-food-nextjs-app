@@ -11,7 +11,7 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const meal = getMeal(params.mealSlug);
+  const meal = await getMeal(params.mealSlug);
 
   if (!meal) {
     notFound();
@@ -23,8 +23,8 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default function MealDetailsPage({ params }: Props) {
-  const meal = getMeal(params.mealSlug);
+export default async function MealDetailsPage({ params }: Props) {
+  const meal = await getMeal(params.mealSlug);
 
   if (!meal) {
     notFound();
