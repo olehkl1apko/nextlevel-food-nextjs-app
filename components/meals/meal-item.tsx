@@ -16,7 +16,7 @@ export default function MealItem({
       <header>
         <div className={classes.image}>
           <Image
-            src={image}
+            src={`https://nextlevel-food-nextjs-app.s3.eu-north-1.amazonaws.com/${image}`}
             alt={title}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"

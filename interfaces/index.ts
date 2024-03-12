@@ -14,4 +14,5 @@ export interface IMeal extends IMealBase {
 
 export interface IMealFormData extends IMealBase {
   image: File | string;
+  slug?: string;
 }

@@ -1,6 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+
 import { saveMeal } from "./meals";
 import { IMealFormData } from "@/interfaces";
 
@@ -44,5 +46,6 @@ export async function shareMeal(
   };
 
   await saveMeal(meal);
+  revalidatePath("/meals");
   redirect("/meals");
 }

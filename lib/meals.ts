@@ -1,14 +1,30 @@
+// import fs from "node:fs";
+import { S3 } from "@aws-sdk/client-s3";
+
 import sql from "better-sqlite3";
-import fs from "node:fs";
 import slugify from "slugify";
 import xss from "xss";
 
 import { IMeal, IMealFormData } from "@/interfaces";
 
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+
+if (!accessKeyId || !secretAccessKey) {
+  throw new Error("AWS credentials are not provided");
+}
+
+const s3 = new S3({
+  region: "eu-north-1",
+  credentials: {
+    accessKeyId,
+    secretAccessKey,
+  },
+});
+
 const db = sql("meals.db");
 
 export async function getMeals(): Promise<IMeal[]> {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
   return db.prepare("SELECT * FROM meals").all() as IMeal[];
 }
 
@@ -24,18 +40,25 @@ export async function saveMeal(meal: IMealFormData) {
   if (meal.image instanceof File) {
     const extension = meal.image.name.split(".").pop();
     fileName = `${meal.slug}.${extension}`;
-    const stream = fs.createWriteStream(`public/images/${fileName}`);
     const bufferedImage = await meal.image.arrayBuffer();
-    stream.write(Buffer.from(bufferedImage), (error: any) => {
-      if (error) {
-        throw new Error("Saving image failed!");
-      }
+
+    // const stream = fs.createWriteStream(`public/images/${fileName}`);
+    // stream.write(Buffer.from(bufferedImage), (error: any) => {
+    //   if (error) {
+    //     throw new Error("Saving image failed!");
+    //   }
+    // });
+    s3.putObject({
+      Bucket: "nextlevel-food-nextjs-app",
+      Key: fileName,
+      Body: Buffer.from(bufferedImage),
+      ContentType: meal.image.type,
     });
   } else {
     fileName = meal.image;
   }
 
-  meal.image = `/images/${fileName}`;
+  meal.image = fileName;
 
   db.prepare(
     `
