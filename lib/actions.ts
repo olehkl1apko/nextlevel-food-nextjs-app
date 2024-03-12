@@ -1,20 +1,48 @@
 "use server";
 
 import { redirect } from "next/navigation";
-
 import { saveMeal } from "./meals";
-import { IMeal } from "@/interfaces";
+import { IMealFormData } from "@/interfaces";
 
-export async function shareMeal(formData: FormData) {
-  const meal = {
-    title: formData.get("title"),
-    summary: formData.get("summary"),
-    instructions: formData.get("instructions"),
-    image: formData.get("image"),
-    creator: formData.get("name"),
-    creator_email: formData.get("email"),
+function isInvalidText(text: string | null): boolean {
+  return !text || text.trim() === "";
+}
+
+export async function shareMeal(
+  prevState: { message: string },
+  formData: FormData
+) {
+  const title = formData.get("title") as string;
+  const summary = formData.get("summary") as string;
+  const instructions = formData.get("instructions") as string;
+  const image = formData.get("image") as File;
+  const creator = formData.get("name") as string;
+  const creator_email = formData.get("email") as string;
+
+  if (
+    isInvalidText(title) ||
+    isInvalidText(summary) ||
+    isInvalidText(instructions) ||
+    isInvalidText(creator) ||
+    isInvalidText(creator_email) ||
+    !creator_email.includes("@") ||
+    !image ||
+    image.size === 0
+  ) {
+    return {
+      message: "Invalid input",
+    };
+  }
+
+  const meal: IMealFormData = {
+    title,
+    summary,
+    instructions,
+    image,
+    creator,
+    creator_email,
   };
 
-  await saveMeal(meal as IMeal);
+  await saveMeal(meal);
   redirect("/meals");
 }

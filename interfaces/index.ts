@@ -1,5 +1,4 @@
 export interface IMealBase {
-  slug: string;
   title: string;
   summary: string;
   instructions: string;
@@ -9,6 +8,7 @@ export interface IMealBase {
 
 export interface IMeal extends IMealBase {
   id: number;
+  slug: string;
   image: string;
 }
 

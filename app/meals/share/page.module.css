@@ -8,7 +8,7 @@
 }
 
 .header h1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .highlight {
@@ -28,11 +28,12 @@
   max-width: 50rem;
 }
 
-.form label {
+.form label,
+.invalid {
   display: block;
   margin-bottom: 0.5rem;
   font-size: 1rem;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   text-transform: uppercase;
   color: #b3aea5;
   font-weight: bold;
@@ -47,7 +48,7 @@
   border: 1px solid #454952;
   background: #1c2027;
   font-size: 1.25rem;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: #ddd6cb;
 }
 
